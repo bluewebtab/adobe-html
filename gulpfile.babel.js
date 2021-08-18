@@ -21,6 +21,8 @@ const EMAIL = yargs.argv.to;
 
 // Declar var so that both AWS and Litmus task can use it.
 var CONFIG;
+var deploy = require('gulp-gh-pages');
+
 
 // Build the "dist" folder by running all of the below tasks
 gulp.task('build',
@@ -41,6 +43,11 @@ gulp.task('mail',
 // Build emails, then zip
 gulp.task('zip',
   gulp.series('build', zip));
+
+gulp.task('deploy', function () {
+  return gulp.src("./dist/**/*")
+    .pipe(deploy())
+});
 
 // Delete the "dist" folder
 // This happens every time a build starts
